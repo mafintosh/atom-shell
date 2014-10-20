@@ -1,5 +1,5 @@
 var tape = require('tape')
-var atom = require('../')
+var atom = require('../').path;
 var fs = require('fs')
 
 tape('has binary', function(t) {
