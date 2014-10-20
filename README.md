@@ -44,7 +44,7 @@ If you require `atom-shell` inside your node app it will return the file path to
 Use this to spawn atom shell
 
 ``` js
-var atom = require('atom-shell')
+var atom = require('atom-shell').path
 var proc = require('child_process')
 
 // will something similar to print /Users/maf/.../Atom

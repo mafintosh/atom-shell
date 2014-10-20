@@ -11,12 +11,11 @@
     "test": "tape test/*.js"
   },
   "bin": {
-    "atom-shell": "run.bat"
+    "atom-shell": "cli.js"
   },
   "main": "index.js",
   "dependencies": {
-    "extract-zip": "^1.0.3",
-    "nugget": "^1.1.2"
+    "bin-wrapper": "^2.0.1"
   },
   "devDependencies": {
     "tape": "^3.0.1"
