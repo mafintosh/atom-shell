@@ -6,12 +6,15 @@ var split = require('split')
 var https = require('https')
 var nugget = require('nugget')
 var extract = require('extract-zip')
+var minimist = require('minimist')
 var fs = require('fs')
 
 var platform = os.platform()
 
 // 64-bit is not available under windows.
 var arch = (platform == 'win32') ? 'ia32' : os.arch()
+var defaultVersion = 'v0.19.5'
+var argv = process.argv.slice(2);
 
 function getFiles(version) {
 
@@ -69,22 +72,29 @@ function getFiles(version) {
   })
 }
 
-var req = {
-  'host': 'api.github.com',
-  'path': '/repos/atom/atom-shell/tags',
-  'headers': {
-    'User-Agent': 'Node'
+if (argv.latest) {
+
+  var req = {
+    'host': 'api.github.com',
+    'path': '/repos/atom/atom-shell/tags',
+    'headers': {
+      'User-Agent': 'Node'
+    }
   }
+
+  https.get(req, function(res) {
+
+    res
+      .pipe(split())
+      .on('data', function(d) {
+        try { d = JSON.parse(d) }
+        catch(ex) { console.error(ex.message) }
+        getFiles(d[0].name)
+      })
+  })
 }
+else {
 
-https.get(req, function(res) {
-
-  res
-    .pipe(split())
-    .on('data', function(d) {
-      try { d = JSON.parse(d) }
-      catch(ex) { console.error(ex.message) }
-      getFiles(d[0].name)
-    })
-})
+  getFiles(defaultVersion);
+}
 
