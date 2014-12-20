@@ -10,11 +10,9 @@ var minimist = require('minimist')
 var fs = require('fs')
 
 var platform = os.platform()
-
-// 64-bit is not available under windows.
 var arch = (platform == 'win32') ? 'ia32' : os.arch()
-var defaultVersion = 'v0.19.5'
-var argv = process.argv.slice(2);
+var defaultVersion = 'v0.20.1'
+var argv = process.argv.slice(2)
 
 function getFiles(version) {
 
@@ -95,6 +93,6 @@ if (argv.latest) {
 }
 else {
 
-  getFiles(defaultVersion);
+  getFiles(defaultVersion)
 }
 
