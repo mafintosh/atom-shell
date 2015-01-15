@@ -2,49 +2,102 @@
 
 var os = require('os')
 var path = require('path')
+var split = require('split')
+var https = require('https')
 var nugget = require('nugget')
 var extract = require('extract-zip')
+var minimist = require('minimist')
 var fs = require('fs')
 
 var platform = os.platform()
-var arch = os.arch()
-if ('win32' === platform) {
-  // 64-bit is not available under windows.
-  arch = 'ia32';
-}
-var version = '0.19.5'
-var name = 'atom-shell-v'+version+'-'+platform+'-'+arch+'.zip'
-var url = 'https://github.com/atom/atom-shell/releases/download/v'+version+'/atom-shell-v'+version+'-'+platform+'-'+arch+'.zip'
+var arch = (platform == 'win32') ? 'ia32' : os.arch()
+var defaultVersion = 'v0.20.6'
+var argv = minimist(process.argv.slice(2))
 
-var onerror = function(err) {
-  throw err
-}
+function getFiles(version) {
 
-var paths = {
-  darwin: path.join(__dirname, './dist/Atom.app/Contents/MacOS/Atom'),
-  linux: path.join(__dirname, './dist/atom'),
-  win32: path.join(__dirname, './dist/atom.exe')
-}
+  console.log('Getting release information...')
 
-var shebang = {
-  darwin: '#!/bin/bash\n',
-  linux: '#!/bin/bash\n',
-  win32: ''
-}
+  var name = [
+    'atom-shell-', version, '-', platform, '-', arch, '.zip'
+  ].join('')
 
-var argv = {
-  darwin: '"$@"',
-  linux: '"$@"',
-  win32: '%*' // does this work with " " in the args?
-}
+  var url = [
+    'https://github.com/atom/atom-shell/releases/download/', version, '/', name
+  ].join('')
 
-if (!paths[platform]) throw new Error('Unknown platform: '+platform)
+  var onerror = function(err) {
+    throw err
+  }
 
-nugget(url, {target:name, dir:__dirname, resume:true, verbose:true}, function(err) {
-  if (err) return onerror(err)
-  fs.writeFileSync(path.join(__dirname, 'path.txt'), paths[platform])
-  fs.writeFileSync(path.join(__dirname, 'run.bat'), shebang[platform]+'"'+paths[platform]+'" '+argv[platform])
-  extract(path.join(__dirname, name), {dir:path.join(__dirname, 'dist')}, function(err) {
+  var paths = {
+    darwin: path.join(__dirname, './dist/Atom.app/Contents/MacOS/Atom'),
+    linux: path.join(__dirname, './dist/atom'),
+    win32: path.join(__dirname, './dist/atom.exe')
+  }
+
+  var shebang = {
+    darwin: '#!/bin/bash\n',
+    linux: '#!/bin/bash\n',
+    win32: ''
+  }
+
+  var argv = {
+    darwin: '"$@"',
+    linux: '"$@"',
+    win32: '%*' // does this work with " " in the args?
+  }
+
+  if (!paths[platform]) throw new Error('Unknown platform: ' + platform)
+
+  var opts = {
+    target: name, 
+    dir: __dirname, 
+    resume: true, 
+    verbose: true
+  }
+
+  nugget(url, opts, function(err) {
+
     if (err) return onerror(err)
+
+    fs.writeFileSync(
+      path.join(__dirname, 'path.txt'),
+      paths[platform]
+    )
+
+    fs.writeFileSync(
+      path.join(__dirname, 'run.bat'),
+      shebang[platform] + '"' + paths[platform] + '" ' + argv[platform]
+    )
+
+    extract(path.join(__dirname, name), { dir: path.join(__dirname, 'dist') }, function(err) {
+      if (err) return onerror(err)
+    })
   })
-})
+}
+
+if (argv.latest) {
+
+  var req = {
+    'host': 'api.github.com',
+    'path': '/repos/atom/atom-shell/tags',
+    'headers': {
+      'User-Agent': 'Node'
+    }
+  }
+
+  https.get(req, function(res) {
+
+    res
+      .pipe(split(JSON.parse))
+      .on('data', function(d) {
+        getFiles(d[0].name)
+      })
+  })
+}
+else {
+
+  getFiles(defaultVersion)
+}
+
