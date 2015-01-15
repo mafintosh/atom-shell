@@ -12,7 +12,7 @@ var fs = require('fs')
 var platform = os.platform()
 var arch = (platform == 'win32') ? 'ia32' : os.arch()
 var defaultVersion = 'v0.20.6'
-var argv = process.argv.slice(2)
+var argv = minimist(process.argv.slice(2))
 
 function getFiles(version) {
 
@@ -48,9 +48,16 @@ function getFiles(version) {
     win32: '%*' // does this work with " " in the args?
   }
 
-  if (!paths[platform]) throw new Error('Unknown platform: '+platform)
+  if (!paths[platform]) throw new Error('Unknown platform: ' + platform)
 
-  nugget(url, {target:name, dir:__dirname, resume:true, verbose:true}, function(err) {
+  var opts = {
+    target: name, 
+    dir: __dirname, 
+    resume: true, 
+    verbose: true
+  }
+
+  nugget(url, opts, function(err) {
 
     if (err) return onerror(err)
 
@@ -61,10 +68,10 @@ function getFiles(version) {
 
     fs.writeFileSync(
       path.join(__dirname, 'run.bat'),
-      shebang[platform]+'"'+paths[platform]+'" '+argv[platform]
+      shebang[platform] + '"' + paths[platform] + '" ' + argv[platform]
     )
 
-    extract(path.join(__dirname, name), {dir:path.join(__dirname, 'dist')}, function(err) {
+    extract(path.join(__dirname, name), { dir: path.join(__dirname, 'dist') }, function(err) {
       if (err) return onerror(err)
     })
   })
@@ -83,10 +90,8 @@ if (argv.latest) {
   https.get(req, function(res) {
 
     res
-      .pipe(split())
+      .pipe(split(JSON.parse))
       .on('data', function(d) {
-        try { d = JSON.parse(d) }
-        catch(ex) { console.error(ex.message) }
         getFiles(d[0].name)
       })
   })
