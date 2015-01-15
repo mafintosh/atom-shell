@@ -11,7 +11,7 @@ var fs = require('fs')
 
 var platform = os.platform()
 var arch = (platform == 'win32') ? 'ia32' : os.arch()
-var defaultVersion = 'v0.20.1'
+var defaultVersion = 'v0.20.6'
 var argv = process.argv.slice(2)
 
 function getFiles(version) {
