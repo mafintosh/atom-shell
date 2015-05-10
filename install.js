@@ -33,20 +33,22 @@ if (!paths[platform]) throw new Error('Unknown platform: ' + platform)
 
 // use cache if possible
 if (pathExists.sync(path.join(cache, filename))) {
-  extractFile()
+  getFile()
 } else {
   mkdir(cache, function(err) {
     if (err) return onerror(err)
-    nugget(url, {target: filename, dir: cache, resume: true, verbose: true}, extractFile)
+    getFile()
   })
 }
 
-function extractFile (err) {
-  if (err) return onerror(err)
-  fs.writeFileSync(path.join(__dirname, 'path.txt'), paths[platform])
-  extract(path.join(cache, filename), {dir: path.join(__dirname, 'dist')}, function (err) {
-    if (err) {
-      return onerror(err)
-    }
+function getFile () {
+  nugget(url, {target: filename, dir: cache, resume: true, verbose: true}, function(err) {
+    if (err) return onerror(err)
+    fs.writeFileSync(path.join(__dirname, 'path.txt'), paths[platform])
+    extract(path.join(cache, filename), {dir: path.join(__dirname, 'dist')}, function (err) {
+      if (err) {
+        return onerror(err)
+      }
+    })
   })
 }
