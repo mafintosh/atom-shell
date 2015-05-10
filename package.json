@@ -24,7 +24,6 @@
     "rimraf": "^2.3.3"
   },
   "devDependencies": {
-    "rimraf": "^2.3.3",
     "tape": "^3.0.1"
   },
   "author": "Mathias Buus",
