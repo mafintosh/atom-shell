@@ -16,7 +16,7 @@ Download and install the latest build of electron for your OS and add it to your
 npm install electron-prebuilt --save-dev
 ```
 
-This is the preferred way to use electron, as it doesn't require users to install electron globally.
+This is the preferred way to use electron, as it doesn't require users to install electron globally. Zip files are cached locally in the home directory inside `.electron`.
 
 You can also use the `-g` flag (global) to symlink it into your PATH:
 
