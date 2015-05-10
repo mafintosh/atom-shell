@@ -7,16 +7,13 @@ var mkdir = require('mkdirp')
 var nugget = require('nugget')
 var extract = require('extract-zip')
 var fs = require('fs')
+var rimraf = require('rimraf')
 var getHomePath = require('home-path')()
 var platform = os.platform()
 var arch = os.arch()
 var version = '0.25.3'
 var filename = 'electron-v' + version + '-' + platform + '-' + arch + '.zip'
 var url = 'https://github.com/atom/electron/releases/download/v' + version + '/electron-v' + version + '-' + platform + '-' + arch + '.zip'
-
-function onerror (err) {
-  throw err
-}
 
 var paths = {
   darwin: path.join(__dirname, './dist/Electron.app/Contents/MacOS/Electron'),
@@ -26,22 +23,32 @@ var paths = {
 
 var cache = path.join(getHomePath, './.electron')
 
+function onerror (err) {
+  // delete cache if any error occurs
+  rimraf.sync(cache);
+  throw err
+}
+
 if (!paths[platform]) throw new Error('Unknown platform: ' + platform)
 
 // use cache if possible
 if (pathExists.sync(path.join(cache, filename))) {
-  extractFile()
+  getFile()
 } else {
   mkdir(cache, function(err) {
     if (err) return onerror(err)
-    nugget(url, {target: filename, dir: cache, resume: true, verbose: true}, extractFile)
+    getFile()
   })
 }
 
-function extractFile (err) {
-  if (err) return onerror(err)
-  fs.writeFileSync(path.join(__dirname, 'path.txt'), paths[platform])
-  extract(path.join(cache, filename), {dir: path.join(__dirname, 'dist')}, function (err) {
+function getFile () {
+  nugget(url, {target: filename, dir: cache, resume: true, verbose: true}, function(err) {
     if (err) return onerror(err)
+    fs.writeFileSync(path.join(__dirname, 'path.txt'), paths[platform])
+    extract(path.join(cache, filename), {dir: path.join(__dirname, 'dist')}, function (err) {
+      if (err) {
+        return onerror(err)
+      }
+    })
   })
 }
