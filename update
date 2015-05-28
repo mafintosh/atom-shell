@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+version=$1
+
+if [ "$version" == "" ]; then
+    echo "No version provided"
+    exit 1
+fi
+
+if ! git diff-index --quiet HEAD --; then
+  echo "Pending changes exist not updating version"
+  exit 1
+fi
+
+sed -i.bak "s/var version = '[^']*'/var version = '$version'/" install.js
+rm install.js.bak
+
+npm --no-git-tag-version version $version
+git commit -am $version
+git tag "v$version"
