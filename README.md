@@ -61,3 +61,11 @@ console.log(electron)
 // spawn electron
 var child = proc.spawn(electron)
 ```
+
+`electron-prebuild` will respect any configuration found with [`rc`](https://github.com/dominictarr/rc) so if you want to require a specify version in your module you can create a file named `.electron-prebuildrc` with this content:
+
+```json
+{
+  "version" : "0.27.2"
+}
+```
