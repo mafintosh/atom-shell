@@ -1,6 +1,6 @@
 {
   "name": "electron-prebuilt",
-  "version": "0.27.2",
+  "version": "0.27.3",
   "description": "Install electron (formerly called atom-shell) prebuilts using npm",
   "repository": {
     "type": "git",
@@ -17,8 +17,9 @@
   },
   "main": "index.js",
   "dependencies": {
+    "electron-download": "^1.0.0",
     "extract-zip": "^1.0.3",
-    "electron-download": "^1.0.0"
+    "rc": "^1.0.3"
   },
   "devDependencies": {
     "home-path": "^0.1.1",
