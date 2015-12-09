@@ -12,7 +12,7 @@ var download = require('electron-download')
 var platform = os.platform()
 
 function onerror (err) {
-  throw err
+  throw new Error(err)
 }
 
 var paths = {
