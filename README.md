@@ -44,6 +44,20 @@ If you want to change the architecture that is downloaded (e.g., `ia32` on an `x
 npm install --arch=ia32 electron-prebuilt
 ```
 
+## Installation - options
+
+You can override the default options for the downloader by creating an entry in the package.json file in the root of your project
+
+```
+{
+ "electron_prebuilt": {
+    "version" : "0.35.4",
+    "arch" : "win32",
+    "strict_ssl" : true
+ }
+}
+```
+
 ## About
 
 Works on Mac, Windows and Linux OSes that Electron supports (e.g. Electron [does not support Windows XP](https://github.com/atom/electron/issues/691)).
