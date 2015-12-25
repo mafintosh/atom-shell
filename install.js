@@ -53,7 +53,7 @@ function getProperties() {
 
     var inf = (manifest && manifest['electron-prebuilt']) ? manifest['electron-prebuilt'] : {};
 
-    var arch = inf.runtime_arch || process.env.npm_config_arch;
+    var arch = inf.arch || process.env.npm_config_arch;
     var strictSSL = inf.strict_ssl || process.env.npm_config_strict_ssl;
     var version = inf.version || version;
 
