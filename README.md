@@ -80,7 +80,10 @@ var electron = require('electron-prebuilt')
 var proc = require('child_process')
 
 // will something similar to print /Users/maf/.../Electron
-console.log(electron)
+console.log(electron.path)
+
+// gives you the precise installed version
+console.log(electron.version)
 
 // spawn electron
 var child = proc.spawn(electron)
