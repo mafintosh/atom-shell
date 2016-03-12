@@ -30,6 +30,12 @@ If that command fails with an `EACCESS` error you may have to run it again with 
 sudo npm install -g electron-prebuilt
 ```
 
+Eventually, for some strong reason, you may need to install a specific version of electron-prebuilt. You can do it like this:
+
+```
+sudo npm install -g electron-prebuilt@0.36.11
+```
+
 Now you can just run `electron` to run electron:
 
 ```
