@@ -4,7 +4,10 @@ var electron = require('./')
 
 var proc = require('child_process')
 
-var child = proc.spawn(electron, process.argv.slice(2), {stdio: 'inherit'})
+var env = process.env
+env.ELECTRON_ENV = env.ELECTRON_ENV || 'development'
+
+var child = proc.spawn(electron, process.argv.slice(2), {stdio: 'inherit', env: env})
 child.on('close', function (code) {
   process.exit(code)
 })
