@@ -84,3 +84,23 @@ console.log(electron)
 // spawn electron
 var child = proc.spawn(electron)
 ```
+
+## ELECTRON_ENV environment variable
+
+`electron` cli add an ELECTRON_ENV variable to the process environment of your Electron app, with the default value of 'development'. If parent process has an ELECTRON_ENV variable defined with a different value, that value is used instead.
+
+When an Electron application is run, it can check the value of the environment variable and do different things based on the value. ELECTRON_ENV specifically is used (by convention) to state whether a particular environment is a production or a development environment. A common use-case is running additional debugging or logging code if running in a development environment.
+
+You can use the following code to access the environment variable yourself so that you can perform your own checks and logic:
+
+```js
+var environment = process.env.ELECTRON_ENV
+```
+
+Or alternatively you can use [electron-is-dev](https://github.com/sindresorhus/electron-is-dev) module.
+
+How to actually set the environment variable varies from operating system to operating system, and also depends on your user setup.
+If you want to set the environment variable as a one-off, you can do so from the command line:
+
+* linux & osx: `export ELECTRON_ENV=production`
+* windows: `set ELECTRON_ENV=production`
