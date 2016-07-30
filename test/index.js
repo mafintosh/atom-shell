@@ -9,6 +9,7 @@ tape('set ELECTRON_ENV to development if not defined', function (t) {
   var args = [__dirname + '/fixture/index.js']
   execFile(__dirname + '/../cli.js', args, function (err, stdout, stderr) {
     t.equal(stderr, '')
+    t.equal(err, null)
     t.equal(stdout.toString(), 'development\n')
     t.end()
   })
