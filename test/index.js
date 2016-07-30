@@ -8,8 +8,9 @@ var execFile = require('child_process').execFile
 tape('set ELECTRON_ENV to development if not defined', function (t) {
   var args = [__dirname + '/fixture/index.js']
   execFile(__dirname + '/../cli.js', args, function (err, stdout, stderr) {
-    t.equal(stderr, '')
-    t.equal(err, null)
+    if (err) {
+      return t.end(err)
+    }
     t.equal(stdout.toString(), 'development\n')
     t.end()
   })
@@ -19,8 +20,10 @@ tape('inherits ELECTRON_ENV from parent process is defined', function (t) {
   var args = [__dirname + '/fixture/index.js']
   process.env.ELECTRON_ENV = 'testing'
   execFile(__dirname + '/../cli.js', args, function (err, stdout, stderr) {
-    t.equal(stderr, '')
-    t.equal(err, null)
+    if (err) {
+      return t.end(err)
+    }
+
     t.equal(stdout.toString(), 'testing\n')
     t.end()
   })
