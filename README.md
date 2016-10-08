@@ -99,7 +99,7 @@ var environment = process.env.ELECTRON_ENV
 
 Alternatively you can use [electron-is-dev](https://github.com/sindresorhus/electron-is-dev) module.
 
-How to actually set the environment variable varies from operating system to operating system, and also depends on your user setup.
+How to actually set the environment variable varies by operating system, and also depends on your user setup.
 If you want to set the environment variable as a one-off, you can do so from the command-line:
 
 * Linux & OS X: `export ELECTRON_ENV=production`
