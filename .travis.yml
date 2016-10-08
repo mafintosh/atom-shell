@@ -1,15 +1,20 @@
+os:
+- linux
+- osx
 language: node_js
 node_js:
-  - '0.10'
-  - '0.12'
-  - 'iojs'
-
-
+- '0.10'
+- '0.12'
+- '4'
+- '5'
+- '6'
+branches:
+  only:
+  - master
 addons:
   apt:
     packages:
-      - xvfb
-
+    - xvfb
 before_install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+- export DISPLAY=':99.0'
+- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &

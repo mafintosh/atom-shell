@@ -16,7 +16,7 @@ try {
   // do nothing
 }
 
-var platform = os.platform()
+var platform = process.env.npm_config_platform || os.platform()
 
 function onerror (err) {
   throw err
@@ -29,14 +29,20 @@ var paths = {
   win32: 'dist/electron.exe'
 }
 
-if (!paths[platform]) throw new Error('Unknown platform: ' + platform)
+if (!paths[platform]) throw new Error('Electron builds are not available on platform: ' + platform)
 
 if (installedVersion === version && fs.existsSync(path.join(__dirname, paths[platform]))) {
   process.exit(0)
 }
 
 // downloads if not cached
-download({version: version, platform: process.env.npm_config_platform, arch: process.env.npm_config_arch, strictSSL: process.env.npm_config_strict_ssl === 'true'}, extractFile)
+download({
+  version: version,
+  platform: process.env.npm_config_platform,
+  arch: process.env.npm_config_arch,
+  strictSSL: process.env.npm_config_strict_ssl === 'true',
+  quiet: process.env.npm_config_loglevel === 'silent'
+}, extractFile)
 
 // unzips and makes path.txt point at the correct executable
 function extractFile (err, zipPath) {
