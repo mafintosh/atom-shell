@@ -11,7 +11,7 @@ tape('set ELECTRON_ENV to development if not defined', function (t) {
     if (err) {
       return t.end(err)
     }
-    t.equal(stdout.toString(), 'development\n')
+    t.equal(stdout.toString().trim(), 'development')
     t.end()
   })
 })
@@ -24,7 +24,7 @@ tape('inherits ELECTRON_ENV from parent process is defined', function (t) {
       return t.end(err)
     }
 
-    t.equal(stdout.toString(), 'testing\n')
+    t.equal(stdout.toString().trim(), 'testing')
     t.end()
   })
 })
