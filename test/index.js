@@ -3,11 +3,11 @@ var electron = require('../')
 var path = require('path')
 var pathExists = require('path-exists')
 var getHomePath = require('home-path')()
-var exec = require('child_process').exec
+var execFile = require('child_process').execFile
 
 tape('set ELECTRON_ENV to development if not defined', function (t) {
-  var args = [__dirname + '/fixture/index.js']
-  exec(__dirname + '/../cli.js', args, function (err, stdout, stderr) {
+  var args = [__dirname + '/../cli.js', __dirname + '/fixture/index.js']
+  execFile('node', args, function (err, stdout, stderr) {
     if (err) {
       return t.end(err)
     }
@@ -17,9 +17,9 @@ tape('set ELECTRON_ENV to development if not defined', function (t) {
 })
 
 tape('inherits ELECTRON_ENV from parent process is defined', function (t) {
-  var args = [__dirname + '/fixture/index.js']
+  var args = [__dirname + '/../cli.js', __dirname + '/fixture/index.js']
   process.env.ELECTRON_ENV = 'testing'
-  exec(__dirname + '/../cli.js', args, function (err, stdout, stderr) {
+  execFile('node', args, function (err, stdout, stderr) {
     if (err) {
       return t.end(err)
     }
