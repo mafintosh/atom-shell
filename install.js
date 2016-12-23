@@ -19,7 +19,7 @@ try {
 var platform = process.env.npm_config_platform || os.platform()
 
 function onerror (err) {
-  throw err
+  throw new Error(err)
 }
 
 var paths = {
