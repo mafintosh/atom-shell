@@ -15,7 +15,7 @@
   "main": "index.js",
   "types": "electron.d.ts",
   "dependencies": {
-    "extract-zip": "^1.0.3",
+    "extract-zip": "1.6.0",
     "electron-download": "^3.0.1"
   },
   "devDependencies": {
