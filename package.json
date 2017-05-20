@@ -5,7 +5,7 @@
   "repository": "https://github.com/electron-userland/electron-prebuilt",
   "scripts": {
     "cache-clean": "rm -rf ~/.electron && rm -rf dist",
-    "postinstall": "node install.js",
+    "preinstall": "node install.js",
     "pretest": "npm run cache-clean && npm run postinstall",
     "test": "tape test/*.js && standard"
   },
