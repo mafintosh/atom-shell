@@ -59,6 +59,12 @@ If you want to change the architecture that is downloaded (e.g., `ia32` on an
 npm install --arch=ia32 electron
 ```
 
+In addition to changing the architecture, you can also specify the platform (e.g., `win32`, `linux`, etc.) using the `--platform` flag:
+
+```shell
+npm install --platform=win32 electron
+```
+
 If you need to force a re-download of the asset and the SHASUM file set the `force_no_cache` enviroment variable to true.
 
 ## About
