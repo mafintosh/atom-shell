@@ -43,6 +43,12 @@ If that command fails with an `EACCESS` error you may have to run it again with 
 sudo npm install -g electron
 ```
 
+***Note:*** on slower networks, in may be advisable to run `npm install -g electron` with the `--verbose` flag in order to show download progress:
+
+```shell
+npm install --verbose electron
+```
+
 Now you can just run `electron` to run electron:
 
 ```shell
