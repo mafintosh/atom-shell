@@ -43,6 +43,12 @@ If that command fails with an `EACCESS` error you may have to run it again with 
 sudo npm install -g electron
 ```
 
+If the above error persists, the [unsafe-perm](https://docs.npmjs.com/misc/config#unsafe-perm) flag may need to be set to true:
+
+```shell
+sudo npm install electron --unsafe-perm=true
+```
+
 Now you can just run `electron` to run electron:
 
 ```shell
