@@ -3,7 +3,8 @@
 This project has been merged into the
 [electron/electron](https://github.com/electron/electron/tree/master/npm)
 repository, and the `electron` module is now published to npm as part of the
-Electron release process.
+Electron release process.This module helps you to install the electron command
+for use on the command line without having to compile anything.
 
 If you're having trouble installing or using Electron, please 
 [file an issue on the electron/electron repo](https://github.com/electron/electron/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aopen%20install%20).
